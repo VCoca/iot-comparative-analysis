@@ -1,0 +1,16 @@
+# .NET
+[Bb]in/
+[Oo]bj/
+appsettings.Development.json
+
+# Node.js
+node_modules/
+npm-debug.log
+.env
+
+# OS/IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo

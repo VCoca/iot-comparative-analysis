@@ -1,0 +1,54 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GRPCAirQualityService.Protos";
+import "google/protobuf/timestamp.proto";
+
+package airquality;
+
+service AirQualityService {
+  // Scenario A: High-Frequency Ingestion
+  rpc AddSensorData (SensorDataRequest) returns (IngestResponse);
+  
+  // Scenario B: Selective Monitoring
+  rpc GetLatestData (DeviceRequest) returns (SensorDataResponse);
+  
+  // Scenario C: Heavy Querying
+  rpc GetAggregation (TimeRangeRequest) returns (AggregationResponse);
+}
+
+message SensorDataRequest {
+  string device_id = 1;
+  google.protobuf.Timestamp recorded_at = 2;
+  double co_gt = 3;
+  double temperature = 4;
+  double relative_humidity = 5;
+}
+
+message SensorDataResponse {
+  int64 id = 1;
+  string device_id = 2;
+  google.protobuf.Timestamp recorded_at = 3;
+  double co_gt = 4;
+  double temperature = 5;
+  double relative_humidity = 6;
+}
+
+message IngestResponse {
+  bool success = 1;
+}
+
+message DeviceRequest {
+  string device_id = 1;
+}
+
+message TimeRangeRequest {
+  string device_id = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+}
+
+message AggregationResponse {
+  double avg_temperature = 1;
+  double max_co = 2;
+  double min_humidity = 3;
+}
