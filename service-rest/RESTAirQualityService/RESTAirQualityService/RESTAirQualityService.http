@@ -1,0 +1,6 @@
+@RESTAirQualityService_HostAddress = http://localhost:5223
+
+GET {{RESTAirQualityService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
