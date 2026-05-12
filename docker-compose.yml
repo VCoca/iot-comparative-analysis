@@ -8,3 +8,34 @@ services:
       POSTGRES_DB: "iot_db"
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  grpc-service:
+    build:
+      context: ./service-grpc/GRPCAirQualityService/GRPCAirQualityService
+      dockerfile: Dockerfile
+    container_name: iot-grpc
+    ports:
+      - "5000:8080"
+    depends_on:
+      - postgres
+  rest-service:
+    build:
+      context: ./service-rest/RESTAirQualityService/RESTAirQualityService/
+      dockerfile: Dockerfile
+    container_name: iot-rest
+    ports:
+      - "5001:8080"
+    depends_on:
+      - postgres
+  graphql-service:
+    build:
+      context: ./service-graphql 
+      dockerfile: Dockerfile
+    container_name: iot-graphql
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+volumes:
+  pgdata:

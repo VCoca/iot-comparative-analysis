@@ -6,7 +6,7 @@ const { Pool } = pkg;
 // Konekcija ka bazi
 const pool = new Pool({
   user: 'iotadmin',
-  host: 'localhost',
+  host: 'postgres',
   database: 'iot_db',
   password: 'admin',
   port: 5432,
