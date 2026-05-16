@@ -20,8 +20,12 @@ message SensorDataRequest {
   string device_id = 1;
   google.protobuf.Timestamp recorded_at = 2;
   double co_gt = 3;
-  double temperature = 4;
-  double relative_humidity = 5;
+  double nmhc_gt = 4;
+  double c6h6_gt = 5;
+  double nox_gt = 6;
+  double no2_gt = 7;
+  double temperature = 8;
+  double relative_humidity = 9;
 }
 
 message SensorDataResponse {
@@ -29,8 +33,12 @@ message SensorDataResponse {
   string device_id = 2;
   google.protobuf.Timestamp recorded_at = 3;
   double co_gt = 4;
-  double temperature = 5;
-  double relative_humidity = 6;
+  double nmhc_gt = 5;
+  double c6h6_gt = 6;
+  double nox_gt = 7;
+  double no2_gt = 8;
+  double temperature = 9;
+  double relative_humidity = 10;
 }
 
 message IngestResponse {
@@ -50,5 +58,9 @@ message TimeRangeRequest {
 message AggregationResponse {
   double avg_temperature = 1;
   double max_co = 2;
-  double min_humidity = 3;
+  double max_nmhc = 3;
+  double max_c6h6 = 4;
+  double max_nox = 5;
+  double max_no2 = 6;
+  double min_humidity = 7;
 }
