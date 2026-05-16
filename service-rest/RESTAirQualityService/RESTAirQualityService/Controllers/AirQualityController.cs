@@ -20,7 +20,7 @@ namespace RESTAirQualityService.Controllers
         public async Task<IActionResult> AddSensorData([FromBody] SensorDataRequest request)
         {
             using var connection = new NpgsqlConnection(_connectionString);
-            var sql = @"INSERT INTO sensor_data (device_id, recorded_at, co_gt, temperature, relative_humidity) 
+            var sql = @"INSERT INTO sensor_data (device_id, recorded_at, co_gt, nmhc_gt, c6h6_gt, nox_gt, no2_gt, temperature, relative_humidity) 
                         VALUES (@DeviceId, @RecordedAt, @CoGt, @Temperature, @RelativeHumidity)";
 
             var result = await connection.ExecuteAsync(sql, request);
@@ -34,7 +34,7 @@ namespace RESTAirQualityService.Controllers
         {
             using var connection = new NpgsqlConnection(_connectionString);
             var sql = @"SELECT id, device_id AS DeviceId, recorded_at AS RecordedAt, 
-                               co_gt AS CoGt, temperature AS Temperature, relative_humidity AS RelativeHumidity 
+                               co_gt AS CoGt, nmhc_gt AS NmhcGt, c6h6_gt AS C6h6Gt, nox_gt AS NoxGt, no2_gt AS No2Gt, temperature AS Temperature, relative_humidity AS RelativeHumidity 
                         FROM sensor_data 
                         WHERE device_id = @DeviceId 
                         ORDER BY recorded_at DESC 
@@ -53,6 +53,10 @@ namespace RESTAirQualityService.Controllers
             var sql = @"SELECT 
                             AVG(temperature) AS AvgTemperature, 
                             MAX(co_gt) AS MaxCo, 
+                            MAX(nmhc_gt) AS MaxNmhc, 
+                            MAX(c6h6_gt) AS MaxC6h6, 
+                            MAX(nox_gt) AS MaxNox,
+                            MAX(no2_gt) AS MaxNo2,
                             MIN(relative_humidity) AS MinHumidity 
                         FROM sensor_data 
                         WHERE device_id = @DeviceId AND recorded_at BETWEEN @Start AND @End";
