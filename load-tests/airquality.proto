@@ -1,0 +1,66 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GRPCAirQualityService.Protos";
+import "google/protobuf/timestamp.proto";
+
+package airquality;
+
+service AirQualityService {
+  // Scenario A: High-Frequency Ingestion
+  rpc AddSensorData (SensorDataRequest) returns (IngestResponse);
+  
+  // Scenario B: Selective Monitoring
+  rpc GetLatestData (DeviceRequest) returns (SensorDataResponse);
+  
+  // Scenario C: Heavy Querying
+  rpc GetAggregation (TimeRangeRequest) returns (AggregationResponse);
+}
+
+message SensorDataRequest {
+  string device_id = 1;
+  google.protobuf.Timestamp recorded_at = 2;
+  double co_gt = 3;
+  double nmhc_gt = 4;
+  double c6h6_gt = 5;
+  double nox_gt = 6;
+  double no2_gt = 7;
+  double temperature = 8;
+  double relative_humidity = 9;
+}
+
+message SensorDataResponse {
+  int64 id = 1;
+  string device_id = 2;
+  google.protobuf.Timestamp recorded_at = 3;
+  double co_gt = 4;
+  double nmhc_gt = 5;
+  double c6h6_gt = 6;
+  double nox_gt = 7;
+  double no2_gt = 8;
+  double temperature = 9;
+  double relative_humidity = 10;
+}
+
+message IngestResponse {
+  bool success = 1;
+}
+
+message DeviceRequest {
+  string device_id = 1;
+}
+
+message TimeRangeRequest {
+  string device_id = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+}
+
+message AggregationResponse {
+  double avg_temperature = 1;
+  double max_co = 2;
+  double max_nmhc = 3;
+  double max_c6h6 = 4;
+  double max_nox = 5;
+  double max_no2 = 6;
+  double min_humidity = 7;
+}

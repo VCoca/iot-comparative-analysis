@@ -1,0 +1,29 @@
+import grpc from 'k6/net/grpc';
+import { check, sleep } from 'k6';
+
+const client = new grpc.Client();
+client.load(['.'], 'airquality.proto');
+
+export const options = {
+  stages: [
+    { duration: '20s', target: 10 },
+    { duration: '20s', target: 100 },
+    { duration: '20s', target: 500 },
+  ],
+};
+
+export default function () {
+  client.connect('127.0.0.1:5000', { plaintext: true });
+
+  // U .proto fajlu za DeviceRequest stoji device_id
+  const data = { device_id: 'sensor-1' }; 
+
+  const response = client.invoke('airquality.AirQualityService/GetLatestData', data);
+
+  check(response, {
+    'status je OK': (r) => r && r.status === grpc.StatusOK,
+  });
+
+  client.close();
+  sleep(1);
+}
