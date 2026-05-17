@@ -86,7 +86,7 @@ const resolvers = {
   Mutation: {
     addSensorData: async (_, args) => {
       const res = await pool.query(
-        'INSERT INTO sensor_data (device_id, recorded_at, co_gt, nmhc_gt, c6h6_gt, nox_gt, no2_gt, temperature, relative_humidity) VALUES ($1, $2, $3, $4, $5)',
+        'INSERT INTO sensor_data (device_id, recorded_at, co_gt, nmhc_gt, c6h6_gt, nox_gt, no2_gt, temperature, relative_humidity) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
         [args.device_id, args.recorded_at, args.co_gt, args.nmhc_gt, args.c6h6_gt, args.nox_gt, args.no2_gt, args.temperature, args.relative_humidity]
       );
       return res.rowCount > 0;

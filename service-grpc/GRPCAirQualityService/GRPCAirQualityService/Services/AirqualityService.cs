@@ -17,7 +17,7 @@ namespace GRPCAirQualityService.Services
         {
             using var connection = new NpgsqlConnection(_connectionString);
             var sql = @"INSERT INTO sensor_data (device_id, recorded_at, co_gt, nmhc_gt, c6h6_gt, nox_gt, no2_gt, temperature, relative_humidity) 
-                        VALUES (@DeviceId, @RecordedAt, @CoGt, @NmhcGt, @C6h6Gt, @NoxGt, @NTemperature, @RelativeHumidity)";
+                        VALUES (@DeviceId, @RecordedAt, @CoGt, @NmhcGt, @C6h6Gt, @NoxGt, @No2Gt, @Temperature, @RelativeHumidity)";
             var result = await connection.ExecuteAsync(sql, new
             {
                 DeviceId = request.DeviceId,
